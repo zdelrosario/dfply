@@ -6,6 +6,7 @@ from .reshape import *
 from .select import *
 from .select import *
 from .set_ops import *
+from .string_helpers import *
 from .subset import *
 from .summarize import *
 from .transform import *
