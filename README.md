@@ -1457,6 +1457,21 @@ diamonds >> groupby(X.cut) >> summarize(price_sd=sd(X.price))
 4  Very Good  3935.862161
 ```
 
+#### `quant()`
+
+Compute a quantile
+
+`quant(series, p)`
+
+```python
+>>> diamonds >> group_by(X.cut) >> summarize(price_lo=quant(X.price, p=0.25))
+         cut  price_lo
+0       Fair   2050.25
+1       Good   1145.00
+2      Ideal    878.00
+3    Premium   1046.00
+4  Very Good    912.00
+```
 
 ## Extending `dfply` with custom functions
 
