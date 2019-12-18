@@ -341,3 +341,18 @@ def test_sd():
     df_truth = pd.DataFrame({'cut': ['Fair', 'Good', 'Ideal', 'Premium', 'Very Good'],
                              's': [np.nan, np.nan, np.nan, np.nan, np.nan]})
     assert t.equals(df_truth)
+
+def test_quant():
+    df = pd.DataFrame(data={"x": [0, 0.25, 0.5, 0.75, 1]})
+
+    df_t_25 = pd.DataFrame({"q": [0.25]})
+    df_t_50 = pd.DataFrame({"q": [0.50]})
+    df_t_75 = pd.DataFrame({"q": [0.75]})
+
+    df_c_25 = df >> summarize(q=quant(X.x, p=0.25))
+    df_c_50 = df >> summarize(q=quant(X.x, p=0.50))
+    df_c_75 = df >> summarize(q=quant(X.x, p=0.75))
+
+    assert df_t_25.equals(df_c_25)
+    assert df_t_50.equals(df_c_50)
+    assert df_t_75.equals(df_c_75)

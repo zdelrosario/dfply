@@ -122,6 +122,21 @@ def IQR(series):
     iqr_s = series.quantile(.75) - series.quantile(.25)
     return iqr_s
 
+@make_symbolic
+def quant(series, p=None):
+    """
+    Returns the specified quantile value.
+
+    @param series column to summarize
+    @param p quantile
+
+    @type series Pandas series
+    @type p float
+
+    @pre 0 <= p <= 1
+    """
+
+    return series.quantile(p)
 
 @make_symbolic
 def colmin(series):
