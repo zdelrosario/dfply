@@ -67,3 +67,11 @@ def test_str_count():
 
     assert R_c2[0] == 2
     assert R_c0[0] == 0
+
+def test_str_replace():
+
+    assert str_replace("foofoo", "foo", "barbar") == "barbarfoo"
+    assert str_replace("barbar", "foo", "bar") == "barbar"
+
+    R = str_replace(["foo"], "foo", "bar")
+    assert R[0] == "bar"

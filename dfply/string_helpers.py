@@ -1,7 +1,7 @@
 from .base import *
 import pandas as pd
 import re
-from numpy import NaN
+from numpy import NaN, isnan
 
 # ------------------------------------------------------------------------------
 # String helpers
@@ -16,10 +16,12 @@ def str_detect(string, pattern):
     Detect the presence of a pattern match in a string.
     """
     try:
+        ## Escape by raise if string is single string
         if isinstance(string, str):
             raise TypeError
         return pd.Series([not (re.search(pattern, s) is None) for s in string])
 
+    ## Single string
     except TypeError:
         return not (re.search(pattern, string) is None)
 
@@ -76,3 +78,29 @@ def str_count(string, pattern):
 
 ## Subset strings
 # --------------------------------------------------
+
+## Mutate string
+# --------------------------------------------------
+def replace_or_none(string, pattern, replacement, ind):
+    if not isnan(ind):
+        return string[:ind] + replacement + string[ind+len(pattern):]
+    else:
+        return string
+
+@make_symbolic
+def str_replace(string, pattern, replacement):
+    """Replace the first matched pattern in each string."""
+
+    indices = str_which(string, pattern)
+
+    try:
+        if isinstance(string, str):
+            raise TypeError
+        return pd.Series([
+            replace_or_none(string[ind], pattern, replacement, indices[ind])
+                        for ind in range(len(indices))
+        ])
+
+    except TypeError:
+
+        return replace_or_none(string, pattern, replacement, indices)
